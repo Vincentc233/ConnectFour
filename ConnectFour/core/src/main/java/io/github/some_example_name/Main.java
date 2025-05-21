@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -21,10 +20,14 @@ public class Main extends ApplicationAdapter {
     @Override //overrides its superclass method
     public void create() {
         backgroundTexture = new Texture("background.png");
-        blueCoin = new Texture("blue.png");
-        redCoin = new Texture("red.png");
+        blueCoin = new Sprite("blue.png");
+        redCoin = new Sprite("red.png");
+        redCoin.setSize(1,1);
+        blueCoin.setSize(1,1);
         spriteBatch = new SpriteBatch();
         viewport = new FitViewport(8, 5);
+
+
     }
 
     @Override
@@ -34,7 +37,9 @@ public class Main extends ApplicationAdapter {
         draw();
     }
     private void input() {
+        if(Gdx.input.isKeyPress(Input.Keys.RIGHT)) {
 
+        }
     }
 
     private void logic() {
@@ -47,8 +52,11 @@ public class Main extends ApplicationAdapter {
         spriteBatch.setProjectionMatrix(viewport.getCamera().combined); //Makes sure that the images are shown in the right place
         spriteBatch.begin(); //drawing starts here
 
-        spriteBatch.draw(blueCoin, 0,0,1,1);
-        spriteBatch.draw(redCoin, 1,0,1,1);
+        float worldWidth = viewport.getWorldWidth();
+        float worldHeight = viewport.getWorldHeight();
+
+        blueCoin.draw(spriteBatch);
+        redCoin.draw(spriteBatch);
 
         spriteBatch.end();
     }
