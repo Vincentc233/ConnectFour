@@ -1,5 +1,6 @@
 package io.github.some_example_name;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -11,6 +12,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
+    Vector2 touchPos; // By creating a single instance variable rather than a local variable we can prevent the garbage collector from triggering, which prevents lag spikes
+
     Texture backgroundTexture;
     Texture blueCoin;
     Texture redCoin;
@@ -26,7 +29,7 @@ public class Main extends ApplicationAdapter {
         blueCoin.setSize(1,1);
         spriteBatch = new SpriteBatch();
         viewport = new FitViewport(8, 5);
-
+        touchPos = new Vector2();
 
     }
 
@@ -37,8 +40,20 @@ public class Main extends ApplicationAdapter {
         draw();
     }
     private void input() {
-        if(Gdx.input.isKeyPress(Input.Keys.RIGHT)) {
+        float speed = .25;
+        float delta = Gdx.graphics.getDeltaTime(); // returns time between frames(delta)
 
+        if(Gdx.input.isKeyPress(Input.Keys.RIGHT)) {
+            bucketSprite.translateX(speed*delta); // Moves the sprite
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            bucketSprite.translateX(-speed * delta);
+        }
+
+        if(Gdx.input.isTouched()){ // If user clicks the screen
+            touchPos.set(Gdx.input.getX(), Gdx.input.getY()); // gets where the user clicked
+            viewport.unproject(touchPos); // Covert the U
+            bucketSprite.setCenterX(touchPos.x);
         }
     }
 
