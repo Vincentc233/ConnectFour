@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
 public class Main implements ApplicationListener{
     Vector2 touchPos = new Vector2(); // By creating a single instance variable rather than a local variable we can prevent the garbage collector from triggering, which prevents lag spikes
     Texture backgroundTexture;
@@ -31,13 +32,13 @@ public class Main implements ApplicationListener{
     public void create() {
 
         viewport = new FitViewport(7, 6);
-        backgroundTexture = new Texture("board.png");
-        yellowCoinTexture = new Texture("YellowCoin.png");
-        redCoinTexture = new Texture("RedCoin.png");
+        backgroundTexture = new Texture("background.png");
+        yellowCoinTexture = new Texture("blue.png");
+        redCoinTexture = new Texture("red.png");
         yellowCoin = new Sprite(yellowCoinTexture);
         redCoin = new Sprite(redCoinTexture);
-        redCoin.setSize(1.5f,1.5f);
-        yellowCoin.setSize(1.5f,1.5f);
+        redCoin.setSize(1f,1f);
+        yellowCoin.setSize(1f,1f);
         spriteBatch = new SpriteBatch();
     }
 
@@ -141,9 +142,8 @@ public class Main implements ApplicationListener{
                         System.out.println("YellowScore:" + yellowScore);
                     }
                     allEqual = true;
-                    break;
                 }
-                else if (gameBoard[r][c] != 0 && r < gameBoard.length-4) {//checks for vertical connect 4s
+                if (gameBoard[r][c] != 0 && r < gameBoard.length-3) {//checks for vertical connect 4s
                     for (int i = 1; i <= 3; i++) {
                         if (gameBoard[r][c] == gameBoard[r+i][c]) {
                             continue;
@@ -159,13 +159,27 @@ public class Main implements ApplicationListener{
                         System.out.println("YellowScore:" + yellowScore);
                     }
                     allEqual = true;
-                    break;
+                }
+                if(gameBoard[r][c] != 0 && (r <= 3 && c > 3)){ //checks diagonal connect 4s
+                    for(int i = 1; i <= 3; i++){
+                        if(gameBoard[r][c] == gameBoard[r+i][c+i]){
+                            continue;
+                        }
+                        else allEqual = false;
+                    }
+                    if (allEqual && gameBoard[r][c] == 2){
+                        redScore++;
+                        System.out.println("RedScore:" + redScore);
+                    }
+                    else if (allEqual && gameBoard[r][c] == 1){
+                        yellowScore++;
+                        System.out.println("YellowScore:" + yellowScore);
+                    }
+                    allEqual = true;
                 }
             }
         }
     }
-
-
 
     @Override
     public void dispose() {
