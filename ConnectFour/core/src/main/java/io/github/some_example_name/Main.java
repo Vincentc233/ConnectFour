@@ -160,7 +160,7 @@ public class Main implements ApplicationListener{
                     }
                     allEqual = true;
                 }
-                if(gameBoard[r][c] != 0 && (r <= 3 && c > 3)){ //checks diagonal connect 4s
+                if(gameBoard[r][c] != 0 && (r <= 3 && c < 4)){ //checks diagonal connect 4s
                     for(int i = 1; i <= 3; i++){
                         if(gameBoard[r][c] == gameBoard[r+i][c+i]){
                             continue;
