@@ -79,9 +79,7 @@ public class Main implements ApplicationListener{
                             break;
                         }
                     }
-
                 }
-
             }
             System.out.println(touchPos.x);
         }
@@ -160,9 +158,26 @@ public class Main implements ApplicationListener{
                     }
                     allEqual = true;
                 }
-                if(gameBoard[r][c] != 0 && (r >= 3 && c < 4)){ //checks diagonal connect 4s
+                if(gameBoard[r][c] != 0 && (r >= 3 && c < 4)){ //checks positive diagonal connect 4s
                     for(int i = 1; i <= 3; i++){
                         if(gameBoard[r][c] == gameBoard[r-i][c+i]){
+                            continue;
+                        }
+                        else allEqual = false;
+                    }
+                    if (allEqual && gameBoard[r][c] == 2){
+                        redScore++;
+                        System.out.println("RedScore:" + redScore);
+                    }
+                    else if (allEqual && gameBoard[r][c] == 1){
+                        yellowScore++;
+                        System.out.println("YellowScore:" + yellowScore);
+                    }
+                    allEqual = true;
+                }
+                if(gameBoard[r][c] != 0 && (r < 3 && c < 4)){ //checks negative diagonal connect 4s
+                    for(int i = 1; i <= 3; i++){
+                        if(gameBoard[r][c] == gameBoard[r+i][c+i]){
                             continue;
                         }
                         else allEqual = false;
