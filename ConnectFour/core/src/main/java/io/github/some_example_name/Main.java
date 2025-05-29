@@ -29,6 +29,7 @@ public class Main implements ApplicationListener{
     private static final float COOLDOWN_TIME = 0.3f;
     public int[][] gameBoard = new int[6][7];
     private boolean redTurn = true;
+    private boolean allEqual = true;
     public void create() {
 
         viewport = new FitViewport(7, 6);
@@ -121,79 +122,100 @@ public class Main implements ApplicationListener{
     }
 
     private void updateScore() {
-        boolean allEqual = true;
         for (int r = 0; r < gameBoard.length; r++) {
             for (int c = 0; c < gameBoard[0].length; c++) {
-                if (gameBoard[r][c] != 0 && c < gameBoard[0].length-4) {//checks for horizontal connect 4s
-                    for (int i = 1; i <= 3; i++) {
-                        if (gameBoard[r][c] == gameBoard[r][c + i]) {
-                            continue;
-                        }
-                        else allEqual = false;
-                    }
-                    if (allEqual && gameBoard[r][c] == 2){
-                        redScore++;
-                        System.out.println("RedScore:" + redScore);
-                    }
-                    else if (allEqual && gameBoard[r][c] == 1){
-                        yellowScore++;
-                        System.out.println("YellowScore:" + yellowScore);
-                    }
-                    allEqual = true;
-                }
-                if (gameBoard[r][c] != 0 && r < gameBoard.length-3) {//checks for vertical connect 4s
-                    for (int i = 1; i <= 3; i++) {
-                        if (gameBoard[r][c] == gameBoard[r+i][c]) {
-                            continue;
-                        }
-                        else allEqual = false;
-                    }
-                    if (allEqual && gameBoard[r][c] == 2){
-                        redScore++;
-                        System.out.println("RedScore:" + redScore);
-                    }
-                    else if (allEqual && gameBoard[r][c] == 1){
-                        yellowScore++;
-                        System.out.println("YellowScore:" + yellowScore);
-                    }
-                    allEqual = true;
-                }
-                if(gameBoard[r][c] != 0 && (r >= 3 && c < 4)){ //checks positive diagonal connect 4s
-                    for(int i = 1; i <= 3; i++){
-                        if(gameBoard[r][c] == gameBoard[r-i][c+i]){
-                            continue;
-                        }
-                        else allEqual = false;
-                    }
-                    if (allEqual && gameBoard[r][c] == 2){
-                        redScore++;
-                        System.out.println("RedScore:" + redScore);
-                    }
-                    else if (allEqual && gameBoard[r][c] == 1){
-                        yellowScore++;
-                        System.out.println("YellowScore:" + yellowScore);
-                    }
-                    allEqual = true;
-                }
-                if(gameBoard[r][c] != 0 && (r < 3 && c < 4)){ //checks negative diagonal connect 4s
-                    for(int i = 1; i <= 3; i++){
-                        if(gameBoard[r][c] == gameBoard[r+i][c+i]){
-                            continue;
-                        }
-                        else allEqual = false;
-                    }
-                    if (allEqual && gameBoard[r][c] == 2){
-                        redScore++;
-                        System.out.println("RedScore:" + redScore);
-                    }
-                    else if (allEqual && gameBoard[r][c] == 1){
-                        yellowScore++;
-                        System.out.println("YellowScore:" + yellowScore);
-                    }
-                    allEqual = true;
-                }
+                horizontal(r,c);
+                vertical(r,c);
+                pDiagonal(r,c);
+                nDiagonal(r,c);
             }
         }
+    }
+
+    private void horizontal(int r, int c){ //checks for horizontal connect 4s
+        if (gameBoard[r][c] != 0 && c < gameBoard[0].length-3) {
+            for (int i = 1; i <= 3; i++) {
+                if (gameBoard[r][c] == gameBoard[r][c + i]) {
+                    continue;
+                }
+                else allEqual = false;
+            }
+            if (allEqual && gameBoard[r][c] == 2){
+                redScore++;
+                System.out.println("RedScore:" + redScore);
+            }
+            else if (allEqual && gameBoard[r][c] == 1){
+                yellowScore++;
+                System.out.println("YellowScore:" + yellowScore);
+            }
+            allEqual = true;
+        }
+    }
+    private void vertical(int r, int c){ //checks for vertical connect 4s
+        if (gameBoard[r][c] != 0 && r < gameBoard.length-3) {
+            for (int i = 1; i <= 3; i++) {
+                if (gameBoard[r][c] == gameBoard[r+i][c]) {
+                    continue;
+                }
+                else allEqual = false;
+            }
+            if (allEqual && gameBoard[r][c] == 2){
+                redScore++;
+                System.out.println("RedScore:" + redScore);
+            }
+            else if (allEqual && gameBoard[r][c] == 1){
+                yellowScore++;
+                System.out.println("YellowScore:" + yellowScore);
+            }
+            allEqual = true;
+        }
+    }
+    private void pDiagonal(int r, int c){ //checks positive diagonal connect 4s
+        if(gameBoard[r][c] != 0 && (r >= 3 && c < 4)){
+            for(int i = 1; i <= 3; i++){
+                if(gameBoard[r][c] == gameBoard[r-i][c+i]){
+                    continue;
+                }
+                else allEqual = false;
+            }
+            if (allEqual && gameBoard[r][c] == 2){
+                redScore++;
+                System.out.println("RedScore:" + redScore);
+            }
+            else if (allEqual && gameBoard[r][c] == 1){
+                yellowScore++;
+                System.out.println("YellowScore:" + yellowScore);
+            }
+            allEqual = true;
+        }
+    }
+    private void nDiagonal(int r, int c){
+        if(gameBoard[r][c] != 0 && (r < 3 && c < 4)){ //checks negative diagonal connect 4s
+            for(int i = 1; i <= 3; i++){
+                if(gameBoard[r][c] == gameBoard[r+i][c+i]){
+                    continue;
+                }
+                else allEqual = false;
+            }
+            if (allEqual && gameBoard[r][c] == 2){
+                redScore++;
+                System.out.println("RedScore:" + redScore);
+            }
+            else if (allEqual && gameBoard[r][c] == 1){
+                yellowScore++;
+                System.out.println("YellowScore:" + yellowScore);
+            }
+            allEqual = true;
+        }
+    }
+
+    private void reset(){
+
+    }
+
+    @Override
+    public void resize(int width, int height){
+        viewport.update(width, height, true); //centers the camera
     }
 
     @Override
@@ -202,11 +224,6 @@ public class Main implements ApplicationListener{
         redCoinTexture.dispose();
         yellowCoinTexture.dispose();
         spriteBatch.dispose();
-    }
-
-    @Override
-    public void resize(int width, int height){
-        viewport.update(width, height, true); //centers the camera
     }
 
     @Override
