@@ -33,9 +33,9 @@ public class Main implements ApplicationListener{
     public void create() {
 
         viewport = new FitViewport(7, 6);
-        backgroundTexture = new Texture("background.png");
-        yellowCoinTexture = new Texture("blue.png");
-        redCoinTexture = new Texture("red.png");
+        backgroundTexture = new Texture("board.png");
+        yellowCoinTexture = new Texture("YellowCoin.png");
+        redCoinTexture = new Texture("RedCoin.png");
         yellowCoin = new Sprite(yellowCoinTexture);
         redCoin = new Sprite(redCoinTexture);
         redCoin.setSize(1f,1f);
