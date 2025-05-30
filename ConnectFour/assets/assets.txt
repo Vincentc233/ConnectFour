@@ -1,3 +1,5 @@
+RedCoin.png
+YellowCoin.png
 background.png
 blue.png
 libgdx.png
