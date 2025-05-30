@@ -1,20 +1,18 @@
 package io.github.some_example_name;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-public class Main implements ApplicationListener{
+
+public class GameScreen implements Screen {
+    final Drop game;
     Vector2 touchPos = new Vector2(); // By creating a single instance variable rather than a local variable we can prevent the garbage collector from triggering, which prevents lag spikes
     Texture backgroundTexture;
     Texture yellowCoinTexture;
@@ -23,14 +21,16 @@ public class Main implements ApplicationListener{
     Sprite redCoin;
     SpriteBatch spriteBatch;
     FitViewport viewport;
-    int redScore = 0;
-    int yellowScore = 0;
+    private boolean allEqual = true;
+    private int redScore = 0;
+    private int yellowScore = 0;
     private float inputCooldown = 0f;
     private static final float COOLDOWN_TIME = 0.3f;
     public int[][] gameBoard = new int[6][7];
     private boolean redTurn = true;
-    private boolean allEqual = true;
-    public void create() {
+
+    public GameScreen(final Drop game) {
+        this.game = game;
 
         viewport = new FitViewport(7, 6);
         backgroundTexture = new Texture("board.png");
@@ -38,12 +38,11 @@ public class Main implements ApplicationListener{
         redCoinTexture = new Texture("RedCoin.png");
         yellowCoin = new Sprite(yellowCoinTexture);
         redCoin = new Sprite(redCoinTexture);
-        redCoin.setSize(1f,1f);
-        yellowCoin.setSize(1f,1f);
+        redCoin.setSize(1.5f,1.5f);
+        yellowCoin.setSize(1.5f,1.5f);
         spriteBatch = new SpriteBatch();
     }
 
-    @Override
     public void render() {
         float deltaTime = Gdx.graphics.getDeltaTime(); // Time since last frame
         if (inputCooldown > 0) {
@@ -55,7 +54,6 @@ public class Main implements ApplicationListener{
     }
 
     private void input() {
-
     }
 
     private void play(){
@@ -80,11 +78,12 @@ public class Main implements ApplicationListener{
                             break;
                         }
                     }
+
                 }
+
             }
             System.out.println(touchPos.x);
         }
-
     }
     private void logic() {
         float worldWidth = viewport.getWorldWidth();
@@ -208,16 +207,6 @@ public class Main implements ApplicationListener{
             allEqual = true;
         }
     }
-
-    private void reset(){
-
-    }
-
-    @Override
-    public void resize(int width, int height){
-        viewport.update(width, height, true); //centers the camera
-    }
-
     @Override
     public void dispose() {
         backgroundTexture.dispose();
@@ -227,13 +216,30 @@ public class Main implements ApplicationListener{
     }
 
     @Override
-    public void pause() {
+    public void show() {
 
     }
 
     @Override
+    public void render(float delta) {
+
+    }
+
+    @Override
+    public void resize(int width, int height){
+        viewport.update(width, height, true); //centers the camera
+    }
+    @Override
+    public void pause() {
+
+    }
+    @Override
     public void resume() {
 
     }
-}
 
+    @Override
+    public void hide() {
+
+    }
+}
