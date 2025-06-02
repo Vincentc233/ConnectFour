@@ -34,6 +34,7 @@ public class GameScreen implements Screen {
     private static final float COOLDOWN_TIME = 0.3f;
     public int[][] gameBoard = new int[6][7];
     private boolean redTurn = true;
+    private int countCheck;
 
     public GameScreen(final Drop game) {
         this.setUp = game;
@@ -63,12 +64,16 @@ public class GameScreen implements Screen {
         draw();
         result = updateScore();
         if(result.equals("RedWins")){
-            dispose();
             setUp.setScreen(new RedWins(setUp));
+            dispose();
         }
         else if(result.equals("YellowWins")){
-            dispose();
             setUp.setScreen(new YellowWins(setUp));
+            dispose();
+        }
+        else if(result.equals("Tie")){
+            setUp.setScreen(new Tie(setUp));
+            dispose();
         }
     }
 
@@ -148,6 +153,7 @@ public class GameScreen implements Screen {
     private String updateScore() {
         int tempRedScore = redScore;
         int tempYellowScore = yellowScore;
+        countCheck = 0;
         for (int r = 0; r < gameBoard.length; r++) {
             for (int c = 0; c < gameBoard[0].length; c++) {
                 horizontal(r,c);
@@ -162,6 +168,8 @@ public class GameScreen implements Screen {
                 nDiagonal(r,c);
                 if(redScore > tempRedScore) return "RedWins";
                 else if(yellowScore > tempYellowScore) return "YellowWins";
+                countCheck += gameBoard[r][c];
+                if(countCheck >= 63) return "Tie"; //In order for a tie to happen there must be 21 redcoins and 21 yellowcoins placed
             }
         }
         return "";
