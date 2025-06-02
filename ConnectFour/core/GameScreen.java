@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 
@@ -25,7 +26,7 @@ public class GameScreen implements Screen {
     Texture scoreBoardRedTexture;
     Sprite scoreBoardRed;
     SpriteBatch spriteBatch;
-    FitViewport viewport;
+    FitViewport  viewport;
     private boolean allEqual = true;
     private static int redScore = 0;
     private static int yellowScore = 0;
@@ -49,8 +50,6 @@ public class GameScreen implements Screen {
         redCoin = new Sprite(redCoinTexture);
         redCoin.setSize(1.8f,1.8f);
         yellowCoin.setSize(1.8f,1.8f);
-        scoreBoardYellow.setSize(2f, 1f);
-        scoreBoardRed.setSize(2f, 1f);
         spriteBatch = new SpriteBatch();
     }
     @Override
@@ -121,25 +120,29 @@ public class GameScreen implements Screen {
 
         float worldWidth = viewport.getWorldWidth();
         float worldHeight = viewport.getWorldHeight();
-        spriteBatch.draw(backgroundTexture, 0, 0, worldWidth, worldHeight-1.1f);
+
+        spriteBatch.draw(backgroundTexture, -0.3f, -0.2f, worldWidth+0.65f, worldHeight-0.8f);
         if(redTurn) spriteBatch.draw(scoreBoardRedTexture, worldWidth/2-1, worldHeight-1, 2, 1 );
         else spriteBatch.draw(scoreBoardYellowTexture, worldWidth/2-1, worldHeight-1, 2, 1 );
         for(int r =0 ; r<6; r++){
             for(int c =0;c<7; c++){
                 if(gameBoard[r][c] ==0) continue;
                 else if(gameBoard[r][c] == 2){
-                    redCoin.setX(c);
+                    redCoin.setX(c-0.4f);
                     redCoin.setY(5-r-0.5f);
                     redCoin.draw(spriteBatch);
                 }
                 else{
-                    yellowCoin.setX(c);
+                    yellowCoin.setX(c-0.4f);
                     yellowCoin.setY(5-r-0.5f);
                     yellowCoin.draw(spriteBatch);
                 }
             }
         }
+        setUp.font.draw(spriteBatch, String.valueOf(redScore), worldWidth/2- 0.6f, worldHeight-0.5f);
+        setUp.font.draw(spriteBatch, String.valueOf(yellowScore), worldWidth/2 + 0.45f, worldHeight-0.5f);
         spriteBatch.end();
+
     }
 
     private String updateScore() {
@@ -271,3 +274,4 @@ public class GameScreen implements Screen {
 
     }
 }
+
