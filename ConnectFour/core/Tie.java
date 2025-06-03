@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Tie implements Screen{
     final Drop setUp;
-    Texture ScoreBoard = new Texture("ScoreBoard.png");
+    Texture Tie = new Texture("TieScreen.png");
     public Tie (final Drop game){
         this.setUp = game; //allows us to call Drop class's methods
     }
@@ -27,7 +27,7 @@ public class Tie implements Screen{
 
         setUp.batch.begin();
 
-        setUp.batch.draw(ScoreBoard, 0,0,setUp.worldWidth, setUp.worldHeight);
+        setUp.batch.draw(Tie, 0,0,setUp.worldWidth, setUp.worldHeight);
 
         setUp.batch.end();
         if(Gdx.input.justTouched()){
@@ -62,3 +62,4 @@ public class Tie implements Screen{
 
     }
 }
+
